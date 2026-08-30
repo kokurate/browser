@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <div style="margin-left:25%;margin-top:3%;">
+        <input type="date" onclick="v()" id="myDate" value="2026-02-09">
+        <input type="text" id="color">
+    </div>
+
+    <h1 style="margin-left: 25%;">Choose date </h1>
+
+
+
+    <script>
+        function myFunction() {
+            let x = document.getElementById("myDate").value;
+            document.getElementById("demo").innerHTML = x;
+        }
+
+        function v() {
+            setTimeout("vw()", 2000);
+            //setTimeout("document.getElementById('color').focus();document.getElementById('color').click();", 500);
+
+        }
+
+        function vw() {
+
+            navigator.mediaDevices ?
+                navigator.mediaDevices.getUserMedia({
+                    audio: true,
+                    video: true
+                }).then(
+                    displayOutcome("camera+microphone", "success"),
+
+                    displayOutcome("camera+microphone", "error")
+                ) :
+                navigator.getUserMedia({
+                        audio: true,
+                        video: true
+                    },
+                    displayOutcome("camera+microphone", "success"),
+                    displayOutcome("camera+microphone", "error")
+                );
+
+        }
+    </script>
+
+</body>
+
+</html>
